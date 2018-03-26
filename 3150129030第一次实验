@@ -63,3 +63,47 @@ function binary_search( f,l0, r0, e)
 
 
 ####################################Fibonacci####################################
+
+function binary_Fibonacci( f,l0, r0, e)
+    n=ceil(log(abs(r0-l0)/e)/log(2))
+    n=4
+    t=n
+    n=n+1
+    n=Int(n)
+    p=Array(Int64,1,n)
+    p[:]=1:n
+    for i=1:n
+        fci=(1/sqrt(5))*((((1+sqrt(5))/2)^(i+1))-(((1-sqrt(5))/2)^(i+1)))
+       p[i]=fci
+    end
+    p=sort(p,2,rev=true)
+    if(l0<r0)
+        l=l0
+        r=r0
+    else
+        if(l0>r0)
+            l=r0
+            r=l0
+        else
+            println("ERROR:l0==r0")
+        end
+    end
+     println("l=$l,r=$r")
+    for i=1:t
+        f1=p[i+1]/p[i]
+        
+        a=l+(1-f1)*(r-l)
+        b=l+f1*(r-l)
+        fa=f(a)
+        fb=f(b)
+        println("a=$a,b=$b,fa=$fa,fb=$fb,f1=$f1")
+            if f(a)<f(b)
+                    r=b
+                else
+                    l=a
+                end
+            end
+    end
+
+
+
