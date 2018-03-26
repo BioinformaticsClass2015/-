@@ -1,1 +1,80 @@
-1
+#######二分法######
+function binary_search(f,g,l0,r0,d)
+    n=ceil(log(abs(r0-l0)/d)/log(2))
+    if l0 < r0
+        l = r0
+        r= l0
+    else
+        if l0 > r0
+            l=r0
+            r=l0
+        else
+            println("RROR:l0==r0,θ-width range")
+        end
+    end
+    m=(l+r)*0.5
+    for i=1:n
+        gm=g(m)
+        println("l=$l,r=$r,m=$m,g=$gm")
+        if abs(gm )< 10d-15
+            return m,f(m)
+        else
+            if gm < 0
+                l=m
+            else
+                r=m
+            end
+        end
+        m=(l+r)*0.5
+    end
+    return m,f(m)
+end
+#黄金分割法#
+function goldfen(f,a,b,c)
+    n=ceil(log(c/2)/log(0.618))
+    a1=a+(1-0.618)*(b-a)
+    b1=a+0.618*(b-a)
+    for i=1:n
+        if f(a1)<f(b1)
+            b=b1
+            a1=a+(1-0.618)*(b-a)
+            b1=a+0.618*(b-a)
+        else
+            a=a1
+            a1=a+(1-0.618)*(b-a)
+            b1=a+0.618*(b-a)
+        end
+    end
+    return a1,b1
+end
+#斐波那契
+function fibfen(f,a,b,c)
+    t=(1+2*c)/(c/(b-a))
+    fib=[1,2]
+    n=3
+    fibn=fib[n-1]+fib[n-2]
+    while fib<t
+        n=n+1
+        fibn=fib[n-1]+fib[n-2]
+    end
+    p=1-(fib[n]/fib[n-1])
+    a1=a+(1-p)*(b-a)
+    b1=a+p*(b-a)
+    m=n
+    for i=m-1:1
+        if f(a1)<f(b1)
+            b=b1
+            n=n-1
+            p=1-(fib[n]/fib[n-1])
+            a1=a+(1-p)*(b-a)
+            b1=a+p*(b-a)
+        else
+            a=a1
+            n=n-1
+            p=1-(fib[n]/fib[n-1])
+            a1=a+(1-p)*(b-a)
+            b1=a+p*(b-a)
+        end
+    end
+    return a1,b1
+end
