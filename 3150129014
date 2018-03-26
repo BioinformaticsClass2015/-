@@ -1,0 +1,117 @@
+function binary_search(f,g,l0,r0,ε=0.001)
+    n=ceil(log(abs(r0-l0)/ε)log(2))
+        if l0<r0
+            l=l0
+            r=r0
+        else
+        if lθ>r0
+            l=r0
+            r=l0
+            println("ERROR:l0==r0,l-width range")
+        end
+    end
+    m=(l+r)*0.5
+    for i=1:n
+        gm=g(m)
+        println("l=$l,r=$r,m=$m,g=$m")
+        if abs(gm)<10E-15
+            return m,f(m)
+        else
+            if gm<0
+            l=m
+        else
+            r=m
+        end
+    end
+    m=(l+r)*0.5
+end
+return l,r,m,f(m)
+end
+       binary_search(x->x^4-14*x^3+60*x^2-70*x,x->4*x^3-42*x^2+120*x-70,0,2,0.03)
+       
+       ###########
+       
+       function golden_search(f,l0,r0,ε=0.3,p=0.382)
+     n = ceil(log(ε/abs(l0-r0))/log(1-p))
+    if l0<r0
+        l = l0
+        r = r0
+    else
+        if l0>r0
+            l = r0
+            r = l0
+        else
+            println("ERROR!")
+        end
+    end
+     l1 = l+p*(r-l)
+     r1 = l+(1-p)*(r-l)
+    for i = 1:n
+        if f(l1)<f(r1)
+            l = l
+            r = r1
+        else
+            l = l1
+            r = r
+        end
+        l1 = l+p*(r-l)
+        r1 = l+(1-p)*(r-l)
+    end
+    return l,r
+end
+golden_search(x->x^4-14*x^3+60*x^2-70*x,0,2,0.3)
+################
+
+function Fibonacci_Search(f,l0,r0,ϵ1,ϵ2=0.05)###ϵ1是最终压缩区间的长度，ϵ2是很小的正数，使得最后一次迭代的参数1/2-ϵ,使得有两个中间点。
+    if l0<r0
+        l=l0
+        r=r0
+    else
+        if l0>r0
+           l=r0
+           r=l0
+        else
+            println("ERROR:l0 == r0, 0-width range")
+        end
+    end
+    
+    ##创建fibonacci数组
+    threshold=abs(r-l)*(1+2ϵ2)/ϵ1
+    fib=[1,2]
+    n=3
+    current=fib[n-1]+fib[n-2]
+    while  current <threshold
+        push!(fib,current)
+        n += 1 
+        current=fib[n-1]+fib[n-2]
+    end
+     push!(fib,current)
+     N=n-1
+     fib=sort(fib,1,rev=true)
+    
+    for i=1:N
+         if i==N
+            p=1-fib[i+1]/fib[i]-ϵ2
+            
+        else
+            p=1-fib[i+1]/fib[i]
+        end
+       a=l+p*(r-l)
+       b=l+(1-p)*(r-l)
+       fa=round(f(a),2)
+       fb=round(f(b),2)
+         if f(a)<f(b)
+            r=b
+            
+            println("f(a)=$fa \t f(b)=$fb\t l=$l \t r=$r")
+            else
+            l=a
+            println("f(a)=$fa \t f(b)=$fb\t l=$l \t r=$r")
+        end
+    end
+    length=r-l;
+    println("极小值所在的区间为：[$l,$r],区间的长度为$length,小于等于ϵ=$ϵ1")
+end
+
+Fibonacci_Search(x->x^4-14*x^3+60*x^2-70*x,0,2,0.05)
+#######
