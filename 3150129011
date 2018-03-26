@@ -1,0 +1,103 @@
+###二分法##
+function binary_search(f,g,l0,r0,ε=0.001)
+    n=ceil(log(abs(r0-l0)/ε)/log(2))
+    if l0<r0
+        l=l0
+        r=r0
+    else
+        if l0>r0
+            l=r0
+            r=l0
+        else
+            println("ERROR:l0==r0,0-width range")
+        end
+    end
+    m=(l+r)*0.5
+for i=1:n
+        gm=g(m)
+        println("l=$l,r=$r,m=$m,g=$gm")
+    if abs(gm)<10E-15
+        return m,f(m)
+        else
+            if gm<0
+                l=m
+            else
+                r=m
+            end
+        end
+        m=(l+r)*0.5
+    end
+    return m,f(m)
+end
+binary_search(x->x^2,x->2*x,0,2,0.01)
+
+
+##黄金分割法##
+function golden_section(f,l,r,e=0.001)
+     n=ceil(log(e/abs(l-r))/log(0.61803))  #求经过几步压缩达到目的
+    if l!=r  #判断给出的区间是否有意义
+        l0=min(l,r)
+        r0=max(l,r)
+    else
+        println("ERROR:l0==r0,0-width range")
+    end
+p=(3-sqrt(5))/2 
+for i=1:n
+    l1=(r0-l0)*p+l0
+    r1=r0-(r0-l0)*p
+    fl1=f(l1)
+    fr1=f(r1)
+    if fl1<fr1
+        l0=l0
+        r0=r1
+    else
+        l0=l1
+        r0=r0
+        end
+    println("区间长度：",r0-l0,"\t区间压缩为",[l0,r0],"\tfl=",fl1,"\tfr=",fr1)
+end
+end
+golden_section(x->x^4-14*x^3+60*x^2-70*x,0,2,0.3)
+
+##斐波那契法##
+function fibonacci(f,l,r,e=0.001,b=0.1)
+    if l!=r  #判断给出的区间是否有意义
+        l0=min(l,r)
+        r0=max(l,r)
+    else
+        println("ERROR:l0==r0,0-width range")
+    end
+threshold=(1+2*b)*(r0-l0)/e
+fib=[1,2]
+n=2
+  while fib[n]<threshold
+    current=fib[n]+fib[n-1]
+    push!(fib,current)
+    n+=1
+  end
+  println("fib=$fib,l0=$l0,r0=$r0")
+  m=n
+   for i in 1:(n-1) 
+      p=1-fib[m-1]/fib[m]
+        if p==0.5
+            p=p-b
+        else
+            p=p
+        end
+      l1=l0+(r0-l0)*p
+      r1=r0-(r0-l0)*p
+      m=m-1
+      fl=f(l1)
+      fr=f(r1)
+      if fl<fr
+        l0=l0
+        r0=r1
+     else
+        l0=l1
+        r0=r0
+        end
+    println("区间长度：",r0-l0,"\t区间压缩为[$l0,$r0]\tfl=$fl\tfr=$fr")  
+end
+end
+fibonacci(x->x^4-14*x^3+60*x^2-70*x,0,2,0.3,0.05)
+
