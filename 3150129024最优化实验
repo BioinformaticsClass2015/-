@@ -1,0 +1,119 @@
+###################二分法#######################
+function binary_search(f,g,l0,r0,?=0.001)
+    n=ceil(log(abs(r0-l0)/?)/log(2))  ##n为压缩次数
+    l=l0
+    r=r0
+    m=(l0+r0)*0.5
+    for i=1:n
+        gm=g(m)
+        if abs(gm)<10E-15
+            return m,f(m)
+        else
+            if gm<0
+                 l=m
+            else r=m
+            end
+        end
+          m=(l+r)*0.5
+    end
+    return m,f(m)
+end
+
+
+binary_search(x->x^2,x->2*x,-1,1,0.01)
+
+binary_search(x->x^2,x->2*x,-1,1)
+
+##结果：(0.0, 0.0)
+
+
+###############黄金分割###############
+function gold_search(f,l0,r0,?=0.001)
+    n=ceil(log(0.61803,?/(abs(r0-l0)))) ##n为压缩次数
+    p=0.382
+    a1=l0+p*(r0-l0)
+    b1=l0+(1-p)*(r0-l0)
+    if f(a1)<f(b1)
+        a=l0
+        b=b1
+    else
+        a=a1   ###第一次压缩为区间【a，b】
+        b=r0
+    end
+     
+  for i=1:n-1 
+    if f(a1)<f(b1)
+        b1=a1
+        a1=a+p(b-a)
+       if f(a1)<f(b1)
+          a=a
+          b=b1
+       else
+        b=b
+        a=a1
+            end
+     
+    else
+        a1=b1
+        b1=a+(1-p)(b-a)
+       if f(a1)<f(b1)
+          a=a
+          b=b1
+       else
+        b=b
+        a=a1
+            end
+        end
+    end
+ return(a,b)
+end
+
+
+
+gold_search(x->x^4-14*x^3+60*x^2-70*x,0,2)
+
+##结果：(0.7802345887428408, 0.7811134910537284)
+
+
+
+###############Fibonacci###############
+function Fibonacci(f,l0,r0,?=0.001)
+   threshold=abs(r0-l0)/?
+    fib=[1,2]
+    n=3
+    current=fib[n-1]+fib[n-2]
+    while current<threshold
+        push!(fib,current)
+        n+=1
+          current=fib[n-1]+fib[n-2]
+    end
+    push!(fib,current)
+    ######以上构建菲波那切数列#####
+    i=1
+    x=(1+2*0.1)/?/abs(r0-l0)
+    for i=1:2000
+        if fib[i]>=x
+            break
+        end
+    end
+    ###### i为迭代次数####
+    a=l0
+    b=r0
+    for j=1:i
+        p=1-fib[i]/fib[i+1]
+        a1=a+p*(a-b)
+        b1=a+(1-p)*(a-b)
+        if f(a1)<f(b1)
+            a=a
+            b=b1
+        else
+            b=b
+            a=a1
+        end
+    end
+    return(a,b)
+end
+
+Fibonacci(x->x^4-14*x^3+60*x^2-70*x,0,2)
+
+##结果：(0.7620696110158898, 0.629443136607288)
