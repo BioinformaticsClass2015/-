@@ -6,7 +6,7 @@ ff<-function(x)
 
 gold<-function(a,b,e)
 {if(a>b)
-{print("´óĞ¡²»·Ö")}
+{print("å¤§å°ä¸åˆ†")}
   n<-ceiling(log(e/(b-a))/log(0.618))
   for(i in 1:n)
   {c<-a+(3-sqrt(5))/2*(b-a)
@@ -20,7 +20,7 @@ gold<-function(a,b,e)
   }
   print(a)
   print(b)
-}#»Æ½ğ·½·¨
+}#é»„é‡‘æ–¹æ³•
 
 
 
@@ -40,10 +40,10 @@ a<-b
 b<-c+b
 }
 return(b)}
-}#ì³²¨ÄÇÆõÊıÁĞ
+}#æ–æ³¢é‚£å¥‘æ•°åˆ—
 feibo<-function(a,b,e)
 {if(a>b)
-{print("´óĞ¡²»·Ö")}
+{print("å¤§å°ä¸åˆ†")}
   n<-2/e
   w<-1
   while(array(w)<n)
@@ -73,12 +73,12 @@ feibo<-function(a,b,e)
   {a<-c}
   print(a)
   print(b)
-}#ì³²¨ÄÇÆõ·½·¨
+}#æ–æ³¢é‚£å¥‘æ–¹æ³•
 
 
 erfen<-function(a,b,e)
 {if(a>b)
-{print("´óĞ¡²»·Ö")}
+{print("å¤§å°ä¸åˆ†")}
 n<-ceiling(log(e/2)/log(0.5))
 for(i in 1:n)
 {c<-(a+b)/2
@@ -88,6 +88,6 @@ if(ff(c)<0)
 {a<-c}}
 print(a)
 print(b)
-}#¶ş·Ö·¨
+}#äºŒåˆ†æ³•
 
 
