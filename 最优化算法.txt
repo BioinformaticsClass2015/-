@@ -1,0 +1,109 @@
+####
+function binary_search(f, g, l0, ro, e=0.001)
+n = ceil(log(abs(ro-l0)/e)log(2))####
+    if l0 < ro
+        l = l0
+        r = r0
+    else
+        if l0 > ro
+            l = ro
+            r = l0
+        else
+            println("ERROR: l0 == r0, 0-widtn range")
+        end
+    end
+    m = (1+r)*0.5
+    for i=1:n
+        gm = g(m)
+        println("l=$l,r=$r,m=$m,g=$gm")
+        if abs(gm) < 10E-15
+            return m, f(m)
+        else
+            if gm < 0
+                l = m
+            else
+                r = m
+            end
+        end
+        m = (1+r)*0.5
+    end
+    return m, f(m)
+    end
+
+
+#####
+function golden_spilt(g,l0,r0, e=0.3,d=0.38197)
+  
+    n = ceil(log(e/(r0-l0))/log(1-d))####
+    println("l=$n")
+    r=r0
+    l=l0
+    m1 = l+(r-l)*d
+    m2=l+(1-d)*(r-l)
+        for i=1:n
+        gm1 = g(m1)
+        gm2=g(m2)
+        gm=gm2-gm1
+        println("l=$gm1,r=$gm2,gm=$gm")
+        if abs(r-l) <  10E-15
+            return l,r
+        else
+            if gm>0
+                r = m2
+                m2=m1
+                m1=l+d*(r-l)
+            else
+                l= m1
+                m1=m2
+                 m2 = l+(1-d)*(r-l)
+            end
+    
+       
+        end
+       
+   end 
+      return l,r
+end 
+#######
+function fib_sum(f,l0,r0,e=0.3,d=0.1)
+    r=r0
+    l=l0
+    fib=[1,2];
+    n=2;
+    while (fib[n]<((1+2d)/(e/(r-l))))
+            n=n+1;
+            curent=fib[n-1]+fib[n-2]
+            push!(fib,curent)
+    end 
+     curent=fib[n]+fib[n-1]
+            push!(fib,curent)
+       
+        p=1-fib[n-1]/fib[n]
+        m1=l+p*(r-l)
+        m2=l+(1-p)*(r-l)
+  println("fib=$fib,$p,$m1,$m2,$n") 
+     for i =1:(n-1) 
+        gm=f(m2)-f(m1)
+         println("l=$l,r=$r,gm=$gm,m1=$m1,m2=$m2")
+        if abs(r-l) <  e
+            return l,r
+        else
+            if gm>0
+                r = m2
+                m2=m1
+                p=1-fib[n-i-1]/fib[n-i]
+                m1=l+p*(r-l)
+            else
+                l= m1
+                m1=m2
+                p=1-fib[n-i-1]/fib[n-i]
+                m2 = l+(1-p)*(r-l)
+            end
+    
+       
+        end
+       
+     end 
+      return l,r
+end 
+        
