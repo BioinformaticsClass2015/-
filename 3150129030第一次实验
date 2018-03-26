@@ -1,0 +1,65 @@
+################################binary################################
+
+function binary_search( f, g, l0, r0, e)
+    n=ceil(log(abs(r0-l0)/e)/log(2))
+    if(l0<r0)
+        l=l0
+        r=r0
+    else
+        if(l0>r0)
+            l=r0
+            r=l0
+        else
+            println("ERROR:l0==r0")
+        end
+    end
+    m=(l+r)*0.5
+    for i=1:n
+                gm=g(m)
+                println("l=$l,r=$r,m=$m,g=$gm")
+            if abs(gm)<10E-15
+                    return m,f(m)
+                else
+                    if gm<0
+                        l=m
+                    else
+                        r=m
+                    end
+                end
+        m=(l+r)*0.5
+        end
+    return m,f(m)
+end
+
+
+####################################golden section####################################
+function binary_search( f,l0, r0, e)
+    n=ceil(log(abs(r0-l0)/e)/log(2))
+    if(l0<r0)
+        l=l0
+        r=r0
+    else
+        if(l0>r0)
+            l=r0
+            r=l0
+        else
+            println("ERROR:l0==r0")
+        end
+    end
+    for i=1:n
+        a=l+(1-0.61803)*(r-l)
+        b=l+0.61803*(r-l)
+        fa=f(a)
+        fb=f(b)
+        println("a=$a,b=$b,fa=$fa,fb=$fb")
+            if f(a)<f(b)
+                    r=b
+                else
+                    l=a
+                    end
+                end
+        end
+
+
+
+####################################Fibonacci####################################
