@@ -1,0 +1,101 @@
+####************二分法*********#####
+function binary_search(f, g, l0, r0, ϵ=0.1 )
+    n=ceil(log(abs(r0-l0)/ ϵ)/log(2))
+    if l0<r0
+        l=l0
+        r=r0
+    else
+        if l0>r0
+            l=ro
+            r=l0
+        else
+            println("ERROR:l0==r0,0-width range")
+        end
+    end
+     m=(l+r)*0.5
+    println(m)
+    for i=1:n
+        gm= g(m)
+        println("l=$l,r=$r,m=$m,g=$gm")
+        if abs(gm) < 0.1
+            return m,f(m)
+        else
+            if gm<0
+                l=m
+            else
+                r=m
+            end
+        end
+        m=(l+r)*0.5
+    end
+    return m,f(m)
+end
+binary_search(x->x^4-14*x^3+60*x^2-70*x,x->4*x^3-42*x^2+120*x-70,0,2,0.1)
+
+####************黄金分割法*********#####
+function gold_search(f, L0, r0, ϵ=0.1,p=0.382 )
+    n=ceil(log(ϵ/abs(r0-L0))/log(1-p))
+    if L0<r0
+        L=L0
+        r=r0
+    else
+        if L0>r0
+            L=r0
+            r=L0
+        else
+            println("ERROR:L0==r0,0-width range")
+        end
+    end
+    for i=1:n
+        L1=L+p*(r-L)
+        r1=L+(1-p)*(r-L)
+        println("L=$L,r=$r")
+        if f(L1)<f(r1)
+            L=L
+            r=r1
+        else
+            L=L1
+            r=r
+        end
+    end
+    return L,r                     
+End
+
+gold_search(x->x^4-14*x^3+60*x^2-70*x,0,2,0.1,0.382)
+
+####************斐波那契数列法*********#####
+function fibonacci(f,L0,r0,ϵ1,ϵ2)###ϵ1是最终压缩区间的长度，ϵ2是很小的正数，使得最后一次迭代的参数1/2-ϵ2,使得有两个中间点。
+    threshold=abs(r0-L0)*(1+2ϵ2)/ϵ1
+    fib=[1,2]
+    n=3
+    L=L0
+    r=r0
+    current=fib[n-1]+fib[n-2]
+    while current<threshold
+        push!(fib,current)
+        n+=1
+        current=fib[n-1]+fib[n-2]
+    end
+    push!(fib,current)
+    fib=sort(fib,1,rev=true)
+    for i=1:(n-1)
+         if i==(n-1)
+            p=1-fib[i+1]/fib[i]-ϵ2          
+        else
+            p=1-fib[i+1]/fib[i]
+        end
+        L1=L+p*(r-L)
+        r1=L+(1-p)*(r-L)
+        println("L=$L,r=$r")
+        if f(L1)<f(r1)
+            L=L
+            r=r1
+        else
+            L=L1
+            r=r
+        end   
+    end
+    return L,r 
+end
+
+fibonacci(x->x^4-14*x^3+60*x^2-70*x,0,2,0.1,0.1)
