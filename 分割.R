@@ -1,0 +1,93 @@
+f<-function(x)
+{x^4-14*x^3+60*x^2-70*x}
+
+ff<-function(x)
+{4*x^3-42*x^2+120*x-70}
+
+gold<-function(a,b,e)
+{if(a>b)
+{print("大小不分")}
+  n<-ceiling(log(e/(b-a))/log(0.618))
+  for(i in 1:n)
+  {c<-a+(3-sqrt(5))/2*(b-a)
+   d<-a+(1-(3-sqrt(5))/2)*(b-a)
+   fa1<-f(c)
+   fb1<-f(d)
+   if(fa1<fb1)
+   {b<-d}
+   if(fa1>fb1)
+   {a<-c}
+  }
+  print(a)
+  print(b)
+}#黄金方法
+
+
+
+
+
+
+
+array<-function(x)
+{a<-1
+b<-2
+if(x==1){return(1)}
+if(x==2){return(2)}
+if(x>2)
+{for(i in 1:(x-2))
+{c<-a
+a<-b
+b<-c+b
+}
+return(b)}
+}#斐波那契数列
+feibo<-function(a,b,e)
+{if(a>b)
+{print("大小不分")}
+  n<-2/e
+  w<-1
+  while(array(w)<n)
+  {w<-w+1
+  if(array(w)>=n)
+    {q<-w-1}}
+  for(i in 1:(q-1))
+  {c<-a+(1-array(q)/array(w))*(b-a)
+  d<-a+array(q)/array(w)*(b-a)
+  r<-q
+  w<-q
+  q<-r-1
+  fa1<-f(c)
+  fb1<-f(d)
+  if(fa1<fb1)
+  {b<-d}
+  if(fa1>fb1)
+  {a<-c}   
+  }
+  c<-a+0.45*(b-a)
+  d<-a+0.55*(b-a)
+  fa1<-f(c)
+  fb1<-f(d)
+  if(fa1<fb1)
+  {b<-d}
+  if(fa1>fb1)
+  {a<-c}
+  print(a)
+  print(b)
+}#斐波那契方法
+
+
+erfen<-function(a,b,e)
+{if(a>b)
+{print("大小不分")}
+n<-ceiling(log(e/2)/log(0.5))
+for(i in 1:n)
+{c<-(a+b)/2
+if(ff(c)>0)
+{b<-c}
+if(ff(c)<0)
+{a<-c}}
+print(a)
+print(b)
+}#二分法
+
+
