@@ -1,0 +1,148 @@
+#3
+function binary_search(f,g,l0,r0,ϵ)
+    n=ceil(log(abs(r0-l0)/ϵ)/log(2))
+    if l0<r0
+        l=l0
+        r=r0
+    else
+        if l0>r0
+            l=r0
+            r=l0
+        else
+            println("ERROR:l0==r0")
+            end
+    end
+    m=(1+r)*0.5
+    for i=1:n
+        gm=g(m)
+        println("l=$l,r=$r,m=$m,g=$gm")
+        if abs(gm)<10E-15
+           return m,f(m)
+        else
+            if gm<0
+               l=m
+            else
+               r=m
+            end
+        end
+        m=(1+r)*0.5  
+    end
+    return m,f(m)            
+end
+binary_search(x->x^4-14*x^3+60*x^2-70*x,x->4*x^3-42*x^2+120*x-70,0,2,0.3)
+
+#1
+function golden_section_search(g,l0,r0,ϵ)
+    p=(3-5^(1/2))/2
+    n=ceil(log(ϵ/2)/log(1-p))
+    if l0<r0
+        a=l0
+        b=r0
+    else
+        if l0>r0
+            a=r0
+            b=l0
+        else
+            println("ERROR:l0==r0")
+            end
+    end
+    c=a
+    d=b
+    a=c+p*(b-c)
+    b=c+(1-p)*(b-c)
+    fa=g(a)
+    fb=g(b)
+    println("a=$a,b=$b,fa=$fa,fb=$fb")
+    if n==1
+        return a,b,g(a),g(b)
+    end
+    e=c
+    f=d
+    c=a
+    d=b
+    if fb>fa   
+        a=e+p*(d-e)
+        b=c
+    else
+        if fa>fb
+            a=d
+            b=c+(1-p)*(f-c)
+        end
+    end
+    fa=g(a)
+    fb=g(b)
+    println("a=$a,b=$b,fa=$fa,fb=$fb")
+    if n==2
+        return a,b,g(a),g(b)
+    end
+    for i=3:n
+        e=c
+        f=d
+        c=a
+        d=b
+        if fb>fa   
+        a=e+p*(d-e)
+        b=c
+    else
+        if fa>fb
+            a=d
+            b=c+(1-p)*(f-c)
+        end
+    end
+        fa=g(a)
+        fb=g(b)
+        println("a=$a,b=$b,fa=$fa,fb=$fb")
+        if abs(fa)<10E-15
+            return a,b,g(a),g(b)
+            else 
+            if abs(fb)<10E-15
+            return a,b,g(a),g(b)
+        end
+        end
+    end
+    return a,b,g(a),g(b)
+end
+golden_section_search(x->x^4-14*x^3+60*x^2-70*x,0,2,0.3)
+
+#2
+function Fibonacci_sequence_search(f,l0,r0,ϵ=0.3)
+  if l0<r0
+        l = l0
+        r = r0
+    else
+        if l0>r0
+            l = r0
+            r = l0
+        else
+            println("ERROR!")
+        end
+    end
+    p=0
+    threshold=abs(r0-l0)/ϵ
+    fib=[1,2]
+    n=3
+    current=fib[n-1]+fib[n-2]
+    while current<threshold
+        push!(fib,current)
+        n+=1
+        current=fib[n-1]+fib[n-2]
+    end
+    push!(fib,current)
+   
+    for i=1:(n-1)
+        p=1-fib[n-i]/fib[n-i+1]
+        l1=l+p*(r-l)
+        r1=l+(1-p)*(r-l)
+        fl1=f(l1)
+        fr1=f(r1)
+        
+        if fl1<fr1
+            r=r1
+        else
+            l=l1
+        end
+    end
+    return l,r,n,p
+end
+
+Fibonacci_sequence_search(x->x^4-14*x^3+60*x^2-70*x,0,2,0.3)
