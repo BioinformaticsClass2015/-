@@ -1,0 +1,67 @@
+function fibonacci(f,l0,r0,ϵ)
+    threshold=abs(r0-l0)/ϵ
+    fib=[1,2]
+    n=3
+    current=fib[n-1]+fib[n-2]
+    while current<threshold
+        push!(fib,current)
+        n+=1
+     current=fib[n-1]+fib[n-2]
+    end
+    println("n=$n") 
+    push!(fib,current)
+    
+    r=r0
+    l=l0
+    for i=1:n
+        p=1-fib[n-1]/fib[n]
+        l1=l+p*(r-l)
+        r1=l+(1-p)*(r-l)
+        if f(l1)==f(r1)
+            println("ERROR")
+        end
+        if f(l1)<f(r1)
+            r=r1
+            fl=f(l1)
+            println("l=$l,r=$r,f=$fl")
+        else
+           l=l1
+            fr=f(r1)
+               println("l=$l,r=$r,f=$fr")
+        end  
+        n-=1
+    end
+end
+
+fibonacci(x->x^4-14*x^3+60*x^2-70*x,0,2,0.3)
+
+
+
+###
+
+function Golden_ratio(f,l0,r0,ϵ=0.001)
+    p=(3-sqrt(5))/2
+    n=ceil(log(ϵ/(r0-l0))/log(1-p))
+     println("n=$n")
+    r=r0
+    l=l0
+    for i=1:n
+        l1=l+p*(r-l)
+        r1=l+(1-p)*(r-l)
+        if f(l1)==f(r1)
+            println("ERROR")
+        end
+        if f(l1)<f(r1)
+            r=r1
+            fl=f(l1)
+            println("l=$l,r=$r,f=$fl")
+        else
+           l=l1
+            fr=f(r1)
+               println("l=$l,r=$r,f=$fr")
+        end  
+    end
+    return l,r
+end
+
+Golden_ratio(x->x^4-14*x^3+60*x^2-70*x,0,2,0.3)
