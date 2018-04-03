@@ -17,7 +17,7 @@ function binary_search(f, g, l0, r0, ϵ=0.1 )
     for i=1:n
         gm= g(m)
         println("l=$l,r=$r,m=$m,g=$gm")
-        if abs(gm) < 0.1
+        if abs(gm) < 10E-5
             return m,f(m)
         else
             if gm<0
