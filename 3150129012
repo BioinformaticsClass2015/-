@@ -1,0 +1,76 @@
+# 黄金分割法
+function golden_section(f,l,r,e=0.001)
+n=ceil(log(e/abs(l-r))/log(0.61803))
+p=(3-sqrt(5))/2
+for i=1:n
+l1=(r-l)*p+l
+r1=r-(r-l)*p
+y1=f(l1)
+y2=f(r1)
+if y1<y2
+r=r1
+else
+l=l1
+end
+println("区间：",l,r,"值",y1,"值",y2)
+end
+return r,l
+end
+golden_section(x->x^4-14*x^3+60*x^2-70*x,0,2,0.3)
+ 
+# 斐波那契数列法
+function fib_sum(f,l,r,e=0.3,d=0.05)
+n=2
+fib=[1,2]
+while (fib(n)<(1+2d)/(e/r-l))
+    n=n+1;
+    curent=fid(n-1)+fid(n-2);
+    push!(fib,curent);
+end
+l0=l;
+r0=r;
+for i=1:n-1
+    p=1-fid(n-i)/fid(n-i-1)
+    l1=l+p*(r0-l0)
+    r1=1+(1-p)*(r0-l0)
+    if p==0.5
+        p=p-d
+    else
+        p=p
+    end
+    if abs(l0-r0) <  e
+        return l0,r0
+    else
+        if f(r1)>f(l1)
+            r0 = r1
+        else
+            l0 = l1
+        end
+    end
+    println("区间：",l0,r0,"p",p)
+end
+return l0,r0
+end 
+fib_sum(x->x^4-14*x^3+60*x^2-70*x,0,2,0.3)
+ 
+#二分法
+function binary_search(f,g,l,r,=0.001)
+n=ceil(log(abs(r0-l0)/ε)/log(2))
+m=(l+r)/2
+for i=1:n
+y=g(m)
+println("l=$l,r=$r,m=$m,y=$y")
+if abs(y)<10E-15
+return m,f(m)
+else
+if y<0
+l=m
+else
+r=m
+end
+end
+m=(l+r)/2
+end
+return m,f(m)
+end
+binary_search(x->x^2,x->2*x,0,2,0.01)
