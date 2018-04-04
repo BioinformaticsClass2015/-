@@ -1,3 +1,42 @@
+###################一维搜索算法#############################
+####************黄金分割法*********#####
+function gold_search(f,l0,u0,ϵ,ρ=0.382)
+    if l0 >= u0
+        u = l0
+        l = u0
+    else
+        u = u0
+        l = l0
+    end
+    n=ceil(log(ϵ/abs(u0-l0))/log(1-ρ))
+    # Initial iteration, setup for later iterations
+    delta = ρ*(u-l)
+    u1 = u - delta
+    l1 = l + delta
+    fu1 = f(u1)
+    fl1 = f(l1)
+    for i = 2:n
+        if fl1 < fu1 # New range, {l, u1}
+           u = u1
+           u1 = l1
+           fu1 = fl1
+           l1 = l + ρ*(u1-l)
+           fl1 = f(l1)
+        else # New range, {l1, u}
+           l = l1
+           l1 = u1
+           fl1 = fu1
+           u1 = u - ρ*(u-l1)
+           fu1 = f(u1)
+        end
+        println("l=",l,"u=",u,"fl1=",fl1,"fu1=",fu1)
+    end
+    # Final result
+    return (l+u)/2 ,f((l+u)/2)
+end
+###test 
+gold_search(x->x^4-14*x^3+60*x^2-70*x,0,2,0.1,0.382)
+
 ####************二分法*********#####
 function binary_search(f, g, l0, r0, ϵ=0.1 )
     n=ceil(log(abs(r0-l0)/ ϵ)/log(2))
@@ -30,38 +69,8 @@ function binary_search(f, g, l0, r0, ϵ=0.1 )
     end
     return m,f(m)
 end
+###test
 binary_search(x->x^4-14*x^3+60*x^2-70*x,x->4*x^3-42*x^2+120*x-70,0,2,0.1)
-
-####************黄金分割法*********#####
-function gold_search(f, L0, r0, ϵ=0.1,p=0.382 )
-    n=ceil(log(ϵ/abs(r0-L0))/log(1-p))
-    if L0<r0
-        L=L0
-        r=r0
-    else
-        if L0>r0
-            L=r0
-            r=L0
-        else
-            println("ERROR:L0==r0,0-width range")
-        end
-    end
-    for i=1:n
-        L1=L+p*(r-L)
-        r1=L+(1-p)*(r-L)
-        println("L=$L,r=$r")
-        if f(L1)<f(r1)
-            L=L
-            r=r1
-        else
-            L=L1
-            r=r
-        end
-    end
-    return L,r                     
-End
-
-gold_search(x->x^4-14*x^3+60*x^2-70*x,0,2,0.1,0.382)
 
 ####************斐波那契数列法*********#####
 function fibonacci(f,L0,r0,ϵ1,ϵ2)###ϵ1是最终压缩区间的长度，ϵ2是很小的正数，使得最后一次迭代的参数1/2-ϵ2,使得有两个中间点。
@@ -97,5 +106,5 @@ function fibonacci(f,L0,r0,ϵ1,ϵ2)###ϵ1是最终压缩区间的长度，ϵ2�
     end
     return L,r 
 end
-
+###test
 fibonacci(x->x^4-14*x^3+60*x^2-70*x,0,2,0.1,0.1)
