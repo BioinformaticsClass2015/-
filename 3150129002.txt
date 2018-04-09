@@ -1,0 +1,97 @@
+
+########golden
+function golden(f,l0,r0,e=0.1)
+    p=(3-5^0.5)/2
+    n=ceil(log(e/abs(l0-r0))/log(p))
+    if l0<r0
+        l1=l0
+        r1=r0
+    else
+        if l0>r0
+            l1=r0
+            r1=l0
+        else
+            println("ERROR:l0=r0")
+        end
+    end
+for i=1:n
+        l=l1+p*(r1-l1)
+        r=l1+(1-p)*(r1-l1)
+        fl=f(l)
+        fr=f(r)
+        println("l=$l,r=$r,fl=$fl,fr=$fr")
+        if fl>fr
+            l1=r
+            r1=r1
+        else
+            r1=l
+            l1=l1
+        end 
+    end   
+    return n
+end   
+
+############binary
+function binary_search(f,g,l0,r0,e=0.001)
+    n=ceil(log(abs(r0-l0)/e)/log(2))
+    if l0<r0
+        l=l0
+        r=r0
+    else
+        if l0>r0
+            l=r0
+            r=l0
+        else
+            println("ERROR:l0=r0")
+        end
+    end
+    m=(l+r)*0.5
+    for i in 1:n
+        gm=g(m)
+        println("l=$l,r=$r,m=$m,gm=$gm")
+         if abs(gm)<10E-15
+            return m
+         else
+                if  gm<0
+                    l=m
+                else
+                    r=m
+                end      
+               m=(l+r)*0.5  
+         end     
+     end    
+        return m,f(m)
+end  
+###########fibonacci
+function fibonacci(f,l0,r0,key,e=0.01)
+          threshold=abs(r0-l0)/e
+          println(threshold)
+                 fib=[1,2]
+                   n=3
+             current=fib[n-1]+fib[n-2]
+               while(current<threshold)
+          push!(fib,current)
+          println(n)
+                  n+=1  
+       current=fib[n-1]+fib[n-2]
+        end
+
+        push!(fib,current)
+        L=length(fib)
+        
+                  while(key>0)
+                                 p=1-(fib[key]/fib[key+1])
+                                 l=l0+p*(r0-l0)
+                                 r=l0+(1-p)*(r0-l0)
+                                 fl=f(l)
+                                 fr=f(r)
+                                 println("l=$l,r=$r，p=$p")
+                              if fl<fr
+                                  r0=l
+                              else
+                                  l0=r
+                              end  
+                           key-=1
+                        end      
+                       
+end
